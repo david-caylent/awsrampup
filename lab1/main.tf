@@ -7,7 +7,8 @@ data "aws_caller_identity" "testing" {
 }
 
 resource "aws_iam_role" "testing_role" {
-  name = "david_testing_role"
+  provider = aws.testing
+  name     = "david_testing_role"
 
   assume_role_policy = <<EOF
 {
@@ -28,11 +29,13 @@ EOF
 }
 
 resource "aws_iam_role_policy_attachment" "testing_policy" {
+  provider   = aws.testing
   role       = aws_iam_role.testing_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
 }
 
 resource "aws_iam_policy" "testing_policy" {
+  provider    = aws.dev
   name        = "david_testing_policy"
   path        = "/"
   description = "David testing policy"
