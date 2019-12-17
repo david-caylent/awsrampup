@@ -1,9 +1,9 @@
 data "aws_caller_identity" "dev" {
-  provider = aws.caylent-dev
+  provider = aws.dev
 }
 
 data "aws_caller_identity" "testing" {
-  provider = aws.caylent-testing
+  provider = aws.testing
 }
 
 resource "aws_iam_role" "testing_role" {
@@ -16,7 +16,7 @@ resource "aws_iam_role" "testing_role" {
     {
       "Effect": "Allow",
       "Principal": {
-        "AWS": "arn:aws:iam::${data.aws_caller_identity.dev}:root"
+        "AWS": "arn:aws:iam::${data.aws_caller_identity.dev.account_id}:root"
       },
       "Action": "sts:AssumeRole",
       "Condition": {}
