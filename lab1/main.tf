@@ -31,3 +31,22 @@ resource "aws_iam_role_policy_attachment" "testing_policy" {
   role       = aws_iam_role.testing_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
 }
+
+resource "aws_iam_policy" "testing_policy" {
+  name        = "david_testing_policy"
+  path        = "/"
+  description = "David testing policy"
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": {
+        "Effect": "Allow",
+        "Action": "sts:AssumeRole",
+        "Resource": [
+            "arn:aws:iam::${data.aws_caller_identity.testing.account_id}:role/${aws_iam_role.testing_role.name}"
+        ]
+    }
+}
+EOF
+}
