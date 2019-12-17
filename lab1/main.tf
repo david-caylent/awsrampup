@@ -26,3 +26,8 @@ resource "aws_iam_role" "testing_role" {
 EOF
 
 }
+
+resource "aws_iam_role_policy_attachment" "test-attach" {
+  role       = aws_iam_role.role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+}
