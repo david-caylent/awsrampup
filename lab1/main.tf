@@ -6,6 +6,11 @@ data "aws_caller_identity" "testing" {
   provider = aws.testing
 }
 
+data "aws_iam_user" "david" {
+  provider  = aws.dev
+  user_name = "david"
+}
+
 resource "aws_iam_role" "testing_role" {
   provider = aws.testing
   name     = "david_testing_role"
@@ -17,7 +22,7 @@ resource "aws_iam_role" "testing_role" {
     {
       "Effect": "Allow",
       "Principal": {
-        "AWS": "arn:aws:iam::${data.aws_caller_identity.dev.account_id}:root"
+        "AWS": "${data.aws_iam_user.david.arn}"
       },
       "Action": "sts:AssumeRole",
       "Condition": {}
